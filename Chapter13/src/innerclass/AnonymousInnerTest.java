@@ -1,0 +1,49 @@
+package innerclass;
+
+class Outer2 {
+
+	// [멤버 변수]익명 내부 클래스 대입
+	Runnable runner = new Runnable() {
+
+		@Override
+		public void run() {
+			System.out.println("Runnable이 구현된 익명 클래스 변수 대입하는 방식");
+		}
+	};
+
+	// 메서드
+	Runnable getRunnable(int i) { // final 자동으로 들어가있음
+		int num = 100; // final 자동으로 들어가있음 //지역변수는 메서드 호출시 스택에 생성 //상수로 변환됨 => 읽을수는 있지만 변경불가
+		// 안드로이드에서 자주 씀
+		return new Runnable() { // 익명 내부 클래스 //익명 으로 인스턴스 넘겨줌 (MyRunnable 클래스 불필요)
+			int localNum = 10;
+
+			@Override
+			public void run() { // 인터페이스가 가진 추상 메서드 구현
+				// TODO Auto-generated method stub
+				// 메서드 지역변수는 클래스에 사용되면 상수로 변환
+				// num = 200; 똑같이 클래스 인스턴스이기 때문에 사용 불가
+				// i = 100;
+				System.out.println("i = " + i); // 5
+				System.out.println("num = " + num); // 100
+				System.out.println("localNum = " + localNum); // 10
+
+			}
+		};
+
+	}
+}
+
+public class AnonymousInnerTest {
+
+	public static void main(String[] args) {
+		// 지역내부 클래스
+		Outer2 out = new Outer2();
+		Runnable runner = out.getRunnable(5); // runner =return new MyRunnalbe(); //메서드 내부가 아니기 때문에 i 변경 가능
+		runner.run();
+
+		System.out.println();
+		out.runner.run();
+	}
+
+}
